@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\SportEventRepository;
+use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -69,7 +70,7 @@ class SportEvent
      * Flag that tells is event published
      */
     #[ORM\Column]
-    private ?bool $isPublished = null;
+    private bool $isPublished = false;
 
     public function __construct()
     {
@@ -139,6 +140,14 @@ class SportEvent
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Tells how much ago event is created in human-readable format
+     */
+    public function getCreatedAtAgo(): string
+    {
+        return Carbon::instance($this->createdAt)->diffForHumans();
     }
 
     public function isIsPublished(): ?bool
