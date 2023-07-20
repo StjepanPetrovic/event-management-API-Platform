@@ -157,6 +157,13 @@ class SportEvent
         return $this->createdAt;
     }
 
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     /**
      * Tells how much ago event is created in human-readable format
      */
@@ -166,7 +173,7 @@ class SportEvent
         return Carbon::instance($this->createdAt)->diffForHumans();
     }
 
-    public function isIsPublished(): ?bool
+    public function isPublished(): ?bool
     {
         return $this->isPublished;
     }
