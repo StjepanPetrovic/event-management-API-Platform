@@ -33,6 +33,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     denormalizationContext: [
         'groups' => 'event:write',
     ],
+    paginationItemsPerPage: 10,
 )]
 class SportEvent
 {
