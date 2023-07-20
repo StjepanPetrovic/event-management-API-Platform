@@ -13,12 +13,14 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use App\Repository\SportEventRepository;
 use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use function Symfony\Component\String\u;
 
 #[ORM\Entity(repositoryClass: SportEventRepository::class)]
 #[ApiResource(
@@ -39,6 +41,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     ],
     paginationItemsPerPage: 10,
 )]
+#[ApiFilter(PropertyFilter::class)]
 class SportEvent
 {
     /**
@@ -119,6 +122,12 @@ class SportEvent
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    #[Groups(['event:read'])]
+    public function getShortDescription(): ?string
+    {
+        return u($this->description)->truncate(40, '...');
     }
 
     public function setDescription(string $description): static
