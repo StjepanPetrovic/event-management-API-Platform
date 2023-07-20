@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: SportEventRepository::class)]
 #[ApiResource(
@@ -119,6 +120,7 @@ class SportEvent
     }
 
     #[Groups('event:write')]
+    #[SerializedName('description')]
     public function setTextDescription(string $description): static
     {
         $this->description = nl2br($description);
