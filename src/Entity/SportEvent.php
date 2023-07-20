@@ -63,13 +63,18 @@ class SportEvent
      * Time when event was created
      */
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt;
 
     /**
      * Flag that tells is event published
      */
     #[ORM\Column]
     private ?bool $isPublished = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -134,13 +139,6 @@ class SportEvent
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     public function isIsPublished(): ?bool
