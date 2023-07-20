@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -50,6 +53,7 @@ class SportEvent
      */
     #[ORM\Column(length: 255)]
     #[Groups(['event:read', 'event:write'])]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private ?string $name = null;
 
     /**
@@ -57,6 +61,7 @@ class SportEvent
      */
     #[ORM\Column(type: Types::TEXT)]
     #[Groups(['event:read'])]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private ?string $description = null;
 
     /**
@@ -84,6 +89,7 @@ class SportEvent
      */
     #[ORM\Column]
     #[Groups(['event:read', 'event:write'])]
+    #[ApiFilter(BooleanFilter::class)]
     private bool $isPublished = false;
 
     public function __construct()
