@@ -20,6 +20,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 use function Symfony\Component\String\u;
 
 #[ORM\Entity(repositoryClass: SportEventRepository::class)]
@@ -65,6 +66,8 @@ class SportEvent
     #[ORM\Column(length: 255)]
     #[Groups(['event:read', 'event:write'])]
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 50, maxMessage: 'Describe name in 50 chars or less')]
     private ?string $name = null;
 
     /**
@@ -73,6 +76,7 @@ class SportEvent
     #[ORM\Column(type: Types::TEXT)]
     #[Groups(['event:read'])]
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
+    #[Assert\NotBlank]
     private ?string $description = null;
 
     /**
@@ -81,14 +85,17 @@ class SportEvent
     #[ORM\Column]
     #[Groups(['event:read', 'event:write'])]
     #[ApiFilter(RangeFilter::class)]
-    private ?int $entryFee = null;
+    #[Assert\GreaterThanOrEqual(0)]
+    private ?int $entryFee = 0;
 
     /**
      * Popularity rating based on previous impressions of participants form 0 to 10
      */
     #[ORM\Column]
     #[Groups(['event:read', 'event:write'])]
-    private ?int $popularityRating = null;
+    #[Assert\GreaterThanOrEqual(0)]
+    #[Assert\LessThanOrEqual(10)]
+    private ?int $popularityRating = 0;
 
     /**
      * Time when event was created
