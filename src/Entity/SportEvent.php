@@ -13,6 +13,7 @@ use App\Repository\SportEventRepository;
 use Carbon\Carbon;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SportEventRepository::class)]
 #[ApiResource(
@@ -24,7 +25,10 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Patch(),
         new Delete(),
-    ]
+    ],
+    normalizationContext: [
+        'groups' => 'event:read',
+    ],
 )]
 class SportEvent
 {
@@ -40,24 +44,28 @@ class SportEvent
      * Name of the sport event
      */
     #[ORM\Column(length: 255)]
+    #[Groups(['event:read'])]
     private ?string $name = null;
 
     /**
      * Description of the sport event
      */
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['event:read'])]
     private ?string $description = null;
 
     /**
      * Amount that each person need to pay to participate in sport event
      */
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?int $entryFee = null;
 
     /**
      * Popularity rating based on previous impressions of participants form 0 to 10
      */
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private ?int $popularityRating = null;
 
     /**
@@ -70,6 +78,7 @@ class SportEvent
      * Flag that tells is event published
      */
     #[ORM\Column]
+    #[Groups(['event:read'])]
     private bool $isPublished = false;
 
     public function __construct()
@@ -145,6 +154,7 @@ class SportEvent
     /**
      * Tells how much ago event is created in human-readable format
      */
+    #[Groups(['event:read'])]
     public function getCreatedAtAgo(): string
     {
         return Carbon::instance($this->createdAt)->diffForHumans();
