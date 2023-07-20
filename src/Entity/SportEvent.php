@@ -29,6 +29,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: [
         'groups' => 'event:read',
     ],
+    denormalizationContext: [
+        'groups' => 'event:write',
+    ],
 )]
 class SportEvent
 {
@@ -44,7 +47,7 @@ class SportEvent
      * Name of the sport event
      */
     #[ORM\Column(length: 255)]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:write'])]
     private ?string $name = null;
 
     /**
@@ -58,14 +61,14 @@ class SportEvent
      * Amount that each person need to pay to participate in sport event
      */
     #[ORM\Column]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:write'])]
     private ?int $entryFee = null;
 
     /**
      * Popularity rating based on previous impressions of participants form 0 to 10
      */
     #[ORM\Column]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:write'])]
     private ?int $popularityRating = null;
 
     /**
@@ -78,7 +81,7 @@ class SportEvent
      * Flag that tells is event published
      */
     #[ORM\Column]
-    #[Groups(['event:read'])]
+    #[Groups(['event:read', 'event:write'])]
     private bool $isPublished = false;
 
     public function __construct()
@@ -115,6 +118,7 @@ class SportEvent
         return $this;
     }
 
+    #[Groups('event:write')]
     public function setTextDescription(string $description): static
     {
         $this->description = nl2br($description);
