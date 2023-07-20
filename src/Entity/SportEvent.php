@@ -12,32 +12,32 @@ class SportEvent
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
+    private string $description;
 
     #[ORM\Column]
-    private ?int $entryFee = null;
+    private int $entryFee;
 
     #[ORM\Column]
-    private ?int $popularityRating = null;
+    private int $popularityRating;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column]
-    private ?bool $isPublished = null;
+    private bool $isPublished;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -49,7 +49,7 @@ class SportEvent
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -73,7 +73,7 @@ class SportEvent
         return $this;
     }
 
-    public function getPopularityRating(): ?int
+    public function getPopularityRating(): int
     {
         return $this->popularityRating;
     }
@@ -85,7 +85,7 @@ class SportEvent
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
