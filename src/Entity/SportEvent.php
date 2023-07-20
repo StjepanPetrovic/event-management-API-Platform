@@ -33,6 +33,13 @@ use function Symfony\Component\String\u;
         new Patch(),
         new Delete(),
     ],
+    formats: [
+        'jsonld',
+        'json',
+        'jsonhal',
+        'html',
+        'csv' => 'text/csv',
+    ],
     normalizationContext: [
         'groups' => 'event:read',
     ],
