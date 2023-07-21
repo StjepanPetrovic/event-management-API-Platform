@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
@@ -52,6 +53,21 @@ use function Symfony\Component\String\u;
         'groups' => 'event:write',
     ],
     paginationItemsPerPage: 10,
+)]
+#[ApiResource(
+    uriTemplate: '/users/{organizer_id}/sport_events.{_format}',
+    operations: [
+        new GetCollection(),
+    ],
+    uriVariables: [
+        'organizer_id' => new Link(
+            fromProperty: 'sportEvents',
+            fromClass: User::class,
+        )
+    ],
+    normalizationContext: [
+        'groups' => 'event:read',
+    ],
 )]
 #[ApiFilter(PropertyFilter::class)]
 #[ApiFilter(SearchFilter::class, properties: ['organizer.username' => 'partial'])]
