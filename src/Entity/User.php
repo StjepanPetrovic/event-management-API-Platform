@@ -5,6 +5,9 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,6 +26,21 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     denormalizationContext: [
         'groups' => 'user:write',
+    ],
+)]
+#[ApiResource(
+    uriTemplate: '/sport_events/{sport_event_id}/organizer.{_format}',
+    operations: [
+        new Get(),
+    ],
+    uriVariables: [
+        'sport_event_id' => new Link(
+            fromProperty: 'organizer',
+            fromClass: SportEvent::class,
+        )
+    ],
+    normalizationContext: [
+        'groups' => 'user:read',
     ],
 )]
 #[UniqueEntity(fields: ['email'], message: "Account with this email already exists.")]
