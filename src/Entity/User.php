@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     private ?string $username = null;
 
-    #[ORM\OneToMany(mappedBy: 'organizer', targetEntity: SportEvent::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'organizer', targetEntity: SportEvent::class, cascade: ['persist'], orphanRemoval: true)]
     #[Groups(['user:read', 'user:write'])]
     #[Assert\Valid]
     private Collection $sportEvents;
