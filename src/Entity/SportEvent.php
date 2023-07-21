@@ -118,6 +118,7 @@ class SportEvent
     #[ORM\ManyToOne(inversedBy: 'sportEvents')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['event:read', 'event:write'])]
+    #[Assert\Valid]
     private ?User $organizer = null;
 
     public function __construct()
