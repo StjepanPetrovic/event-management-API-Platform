@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -49,6 +51,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:write'])]
     #[Assert\NotBlank]
     private ?string $username = null;
+
+    #[ORM\OneToMany(mappedBy: 'organizer', targetEntity: SportEvent::class)]
+    private Collection $sportEvents;
+
+    public function __construct()
+    {
+        $this->sportEvents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -128,6 +138,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SportEvent>
+     */
+    public function getSportEvents(): Collection
+    {
+        return $this->sportEvents;
+    }
+
+    public function addSportEvent(SportEvent $sportEvent): static
+    {
+        if (!$this->sportEvents->contains($sportEvent)) {
+            $this->sportEvents->add($sportEvent);
+            $sportEvent->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSportEvent(SportEvent $sportEvent): static
+    {
+        if ($this->sportEvents->removeElement($sportEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($sportEvent->getOrganizer() === $this) {
+                $sportEvent->setOrganizer(null);
+            }
+        }
 
         return $this;
     }

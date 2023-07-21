@@ -111,6 +111,10 @@ class SportEvent
     #[ApiFilter(BooleanFilter::class)]
     private bool $isPublished = false;
 
+    #[ORM\ManyToOne(inversedBy: 'sportEvents')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $organizer = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -213,6 +217,18 @@ class SportEvent
     public function setIsPublished(bool $isPublished): static
     {
         $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    public function getOrganizer(): ?User
+    {
+        return $this->organizer;
+    }
+
+    public function setOrganizer(?User $organizer): static
+    {
+        $this->organizer = $organizer;
 
         return $this;
     }
