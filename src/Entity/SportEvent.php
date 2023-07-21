@@ -64,7 +64,7 @@ class SportEvent
      * Name of the sport event
      */
     #[ORM\Column(length: 255)]
-    #[Groups(['event:read', 'event:write'])]
+    #[Groups(['event:read', 'event:write', 'user:read'])]
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50, maxMessage: 'Describe name in 50 chars or less')]
@@ -83,7 +83,7 @@ class SportEvent
      * Amount that each person need to pay to participate in sport event
      */
     #[ORM\Column]
-    #[Groups(['event:read', 'event:write'])]
+    #[Groups(['event:read', 'event:write', 'user:read'])]
     #[ApiFilter(RangeFilter::class)]
     #[Assert\GreaterThanOrEqual(0)]
     private ?int $entryFee = 0;
