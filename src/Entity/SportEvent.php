@@ -27,7 +27,11 @@ use function Symfony\Component\String\u;
 #[ApiResource(
     description: 'Event where people can compete in various sports',
     operations: [
-        new Get(),
+        new Get(
+            normalizationContext: [
+                'groups' => ['event:read', 'event:item:get'],
+            ],
+        ),
         new GetCollection(),
         new Post(),
         new Put(),
