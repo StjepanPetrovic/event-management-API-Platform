@@ -54,6 +54,7 @@ use function Symfony\Component\String\u;
     paginationItemsPerPage: 10,
 )]
 #[ApiFilter(PropertyFilter::class)]
+#[ApiFilter(SearchFilter::class, properties: ['organizer.username' => 'partial'])]
 class SportEvent
 {
     /**
@@ -119,6 +120,7 @@ class SportEvent
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['event:read', 'event:write'])]
     #[Assert\Valid]
+    #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private ?User $organizer = null;
 
     public function __construct()

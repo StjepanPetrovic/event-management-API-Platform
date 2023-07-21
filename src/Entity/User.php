@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,6 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[UniqueEntity(fields: ['email'], message: "Account with this email already exists.")]
 #[UniqueEntity(fields: ['username'], message: "User with this username already exists.")]
+#[ApiFilter(PropertyFilter::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
