@@ -53,6 +53,7 @@ final class SportEventFactory extends ModelFactory
             'isPublished' => self::faker()->boolean(),
             'name' => self::faker()->text(255),
             'popularityRating' => self::faker()->numberBetween(1, 10),
+            'organizer' => UserFactory::new(),
         ];
     }
 
